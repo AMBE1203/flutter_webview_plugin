@@ -129,7 +129,7 @@ class WebviewManager {
     Context context;
     private boolean ignoreSSLErrors = false;
 
-    WebviewManager(final Activity activity, final Context context, final List<String> channelNames) {
+    WebviewManager(final Activity activity, final Context context) {
         this.webView = new ObservableWebView(activity);
         this.activity = activity;
         this.context = context;
@@ -270,7 +270,6 @@ class WebviewManager {
 
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
-        registerJavaScriptChannelNames(channelNames);
     }
 
     private Uri getOutputFilename(String intentType) {
@@ -357,12 +356,6 @@ class WebviewManager {
         webView.clearFormData();
     }
 
-    private void registerJavaScriptChannelNames(List<String> channelNames) {
-        for (String channelName : channelNames) {
-            webView.addJavascriptInterface(
-                    new JavaScriptChannel(FlutterWebviewPlugin.channel, channelName, platformThreadHandler), channelName);
-        }
-    }
 
     void openUrl(
             boolean withJavascript,
